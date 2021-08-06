@@ -31,12 +31,8 @@
     src: roles/nginx/templates/default 
     dest: /etc/nginx/sites-enabled/default
 
-- name: Restart nginx
-  service:
-    name: nginx
+- name: Restarted nginx.service  
+  systemd:
+    name: nginx.service
     state: restarted
-
-- name: Restart tomcat
-  service:
-    name: tomcat
-    state: restarted
+    enabled: true

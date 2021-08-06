@@ -1,0 +1,5 @@
+---
+- hosts: load_balancers_server # Можна змінити
+  become: yes
+  roles:
+  - nginx

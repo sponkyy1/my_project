@@ -1,0 +1,61 @@
+---
+- name: "apt update && apt upgrade"
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+  
+- name: add tomcat group
+  group:
+    name: tomcat
+
+- name: add tomcat user
+  user:
+    name: tomcat
+    group: tomcat
+    home: /user/share/tomcat
+    createhome: no
+
+- name: create /opt/tomcat directory
+  file:
+    path: /opt/tomcat
+    state: directory
+    mode: 0755
+
+- name: download & unarchive
+  unarchive:
+    src: https://downloads.apache.org/tomcat/tomcat-9/v9.0.50/bin/apache-tomcat-9.0.50.tar.gz
+    dest: /opt/tomcat
+    remote_src: yes
+    extra_opts: [--strip-components=1]
+
+- name: Change ownership
+  file:
+    path: /opt/tomcat
+    owner: tomcat
+    group: tomcat
+    mode: "u+rwx,g+rx,o=rx"
+    recurse: yes
+    state: directory
+
+- name: Copy Tomcat service from local to remote
+  template: 
+    src: roles/tomcat/templates/tomcat.service
+    dest: /etc/systemd/system/
+
+- name: Start and enable Tomcat service
+  systemd:
+    name: tomcat
+    state: started
+    enabled: true
+    daemon_reload: true
+
+- name: Copy Tomcat service from local to remote
+  copy:
+      src: roles/tomcat/templates/setenv.sh
+      dest: /opt/tomcat/bin/
+      mode: 0775
+  
+- name: Restart tomcat
+  service:
+    name: tomcat
+    state: restarted

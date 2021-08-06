@@ -1,0 +1,24 @@
+---
+- name: "apt update && apt upgrade"
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+  
+- name: Install maven
+  apt:
+    name: maven
+    state: present
+    update_cache: yes
+
+- name: Change the working directory to /home/vagrant/back/ before executing the command.
+  shell: mvn package -DskipTests
+  args:
+    chdir: /home/vagrant/back/
+
+- name: npm run start
+  shell: mv /home/vagrant/back/target/TeachUA-1.0.war /opt/tomcat/webapps/dev.war
+
+#- name: Copy file
+#  ansible.builtin.copy:
+#    src: /home/vagrant/back/target/TeachUA-1.0.war
+#    dest: /opt/tomcat/webapps/dev.war

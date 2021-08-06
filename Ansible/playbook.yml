@@ -1,5 +1,11 @@
 ---
-- hosts: load_balancers_server # Можна змінити
+- hosts: all # Можна змінити
   become: yes
   roles:
+  - java
+  - tomcat
+  - git
   - nginx
+  - mysql
+  - maven
+  - nodejs

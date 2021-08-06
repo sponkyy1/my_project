@@ -1,0 +1,11 @@
+---
+- name: Install mysql-client
+  apt:
+    name: mysql-client-core-8.0
+    state: present
+    update_cache: yes
+
+- name: Update mysql confs for MyApp
+  template: 
+    src: roles/mysql/templates/data.sql 
+    dest: /home/vagrant/back/src/main/resources/data.sql

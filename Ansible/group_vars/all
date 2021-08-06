@@ -1,0 +1,7 @@
+user_username: test123
+user_password: test123
+db_url_username: jdbc:mysql://192.168.104.104:3306/teach?serverTimezone=Europe/Helsinki&useSSL=false
+db_admin_username: db_user
+db_admin_password: Dan131296
+db_ip: 192.168.104.104
+git_repo: https://github.com/softservedata/lv590.git
