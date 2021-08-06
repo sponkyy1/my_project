@@ -10,7 +10,7 @@
     state: present
     update_cache: yes
 
-- name: Change the working directory to /home/vagrant/back/ before executing the command.
+- name: mvn package -DskipTests
   shell: mvn package -DskipTests
   args:
     chdir: /home/vagrant/back/
