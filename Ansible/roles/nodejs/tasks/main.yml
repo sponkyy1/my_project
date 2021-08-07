@@ -31,6 +31,9 @@
   args:
     chdir: /home/vagrant/front/
 
+#- name: Open mysql
+#  shell: mysql -h "{{ db_ip }}" -u "{{ db_admin_username }}" --password="{{ db_admin_password }}"
+
 - name: Restart tomcat
   service:
     name: tomcat
