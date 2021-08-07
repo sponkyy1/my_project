@@ -1,10 +1,5 @@
 ---
-- hosts: web_server_1 # Можна змінити
+- hosts: load_balancers_server # Можна змінити
+  become: yes
   roles:
-  - java
-  - tomcat
-  - git
   - nginx
-  - mysql
-  - maven
-  - nodejs

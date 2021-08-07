@@ -3,48 +3,36 @@
   apt:
     update_cache: yes
     cache_valid_time: 3600
-  become: yes
   
 - name: Install nginx
   apt:
     name: nginx
     state: present
     update_cache: yes
-  become: yes
 
 - name: Stop nginx.service  
   systemd:
     name: nginx.service
     state: stopped
-  become: yes
 
 - name: Start & Enable nginx.service  
   systemd:
     name: nginx.service
     state: started
     enabled: true
-  become: yes
 
 - name: Remove file default
   ansible.builtin.file:
     path: /etc/nginx/sites-enabled/default
     state: absent
-  become: yes
 
 - name: Update nginx confs for MyApp
   template: 
     src: roles/nginx/templates/default 
     dest: /etc/nginx/sites-enabled/default
-  become: yes
 
-- name: Restart nginx
-  service:
-    name: nginx
+- name: Restarted nginx.service  
+  systemd:
+    name: nginx.service
     state: restarted
-  become: yes
-
-- name: Restart tomcat
-  service:
-    name: tomcat
-    state: restarted
-  become: yes
+    enabled: true
