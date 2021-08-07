@@ -1,5 +1,6 @@
 ---
 - hosts: web_server_1 # Можна змінити
+  become: yes
   roles:
   - java
   - tomcat
