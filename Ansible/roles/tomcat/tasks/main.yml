@@ -3,10 +3,12 @@
   apt:
     update_cache: yes
     cache_valid_time: 3600
+  become: yes
   
 - name: add tomcat group
   group:
     name: tomcat
+  become: yes
 
 - name: add tomcat user
   user:
@@ -14,12 +16,14 @@
     group: tomcat
     home: /user/share/tomcat
     createhome: no
+  become: yes
 
 - name: create /opt/tomcat directory
   file:
     path: /opt/tomcat
     state: directory
     mode: 0755
+  become: yes
 
 - name: download & unarchive
   unarchive:
@@ -27,6 +31,7 @@
     dest: /opt/tomcat
     remote_src: yes
     extra_opts: [--strip-components=1]
+  become: yes
 
 - name: Change ownership
   file:
@@ -36,11 +41,13 @@
     mode: "u+rwx,g+rx,o=rx"
     recurse: yes
     state: directory
+  become: yes
 
 - name: Copy Tomcat service from local to remote
   template: 
     src: roles/tomcat/templates/tomcat.service
     dest: /etc/systemd/system/
+  become: yes
 
 - name: Start and enable Tomcat service
   systemd:
@@ -48,14 +55,17 @@
     state: started
     enabled: true
     daemon_reload: true
+  become: yes
 
 - name: Copy Tomcat service from local to remote
   copy:
       src: roles/tomcat/templates/setenv.sh
       dest: /opt/tomcat/bin/
       mode: 0775
+  become: yes
   
 - name: Restart tomcat
   service:
     name: tomcat
     state: restarted
+  become: yes

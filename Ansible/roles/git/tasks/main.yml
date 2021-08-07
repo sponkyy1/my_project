@@ -3,46 +3,53 @@
   apt:
     update_cache: yes
     cache_valid_time: 3600
+  become: yes
 
 - name: Install git
   apt:
     name: git
     state: present
     update_cache: yes
+  become: yes
 
 - name: Create a directory if it does not exist for back
   ansible.builtin.file:
     path: /home/vagrant/back
     state: directory
     mode: '0755'
+  become: yes
 
 - name: Create a directory if it does not exist for front
   ansible.builtin.file:
     path: /home/vagrant/front
     state: directory
     mode: '0755'
+  become: yes
 #git clone --single-branch --branch <branchname> <remote-repo>
 - name: Example clone of a single branch(back)
   git:
     repo: "{{ git_repo }}"
     dest: /home/vagrant/back/
     version: teachback
+  become: yes
 
 - name: Example clone of a single branch(front)
   git:
     repo: "{{ git_repo }}"
     dest: /home/vagrant/front/
     version: teachfront
-
+  become: yes
 
 - name: Set up back
   lineinfile:
     dest: /home/vagrant/back/src/main/resources/application.properties
     regexp: 'spring.datasource.driver-class-name=org.postgresql.Driver'
     line: 'spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver'
+  become: yes
 
 - name: Set up front
   lineinfile:
     dest: /home/vagrant/front/src/config/ApplicationConfig.js
     regexp: 'export const ROOT_SERVER = "http://localhost:8080";'
     line: 'export const ROOT_SERVER = "http://192.168.101.101:8080";'
+  become: yes
