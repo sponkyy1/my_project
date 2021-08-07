@@ -9,7 +9,7 @@ pipeline {
         
         stage('Execute Ansible') {
             steps {
-                ansiblePlaybook credentialsId: '/vagrant/private_key/private_key', disableHostKeyChecking: true, installation: 'ansible', inventory: 'Ansible/hosts.txt', playbook: 'Ansible/playbook.yml'
+                ansiblePlaybook credentialsId: '/vagrant/private_keys/private_key', disableHostKeyChecking: true, installation: 'ansible', inventory: 'Ansible/hosts.txt', playbook: 'Ansible/playbook.yml'
             }
         }
     }
